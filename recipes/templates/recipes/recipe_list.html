@@ -1,0 +1,23 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+    <h1>Latest Recipes</h1>
+    
+    <div class="recipe-grid">
+        {% for recipe in recipes %}
+            <div class="card">
+                <div class="card-header">
+                    <span class="category-tag">{{ recipe.category.name }}</span>
+                    <h2>{{ recipe.title }}</h2>
+                </div>
+                <div class="card-body">
+                    <p class="description">{{ recipe.description }}</p>
+                    <p class="instructions"><strong>Instructions:</strong> {{ recipe.instructions|truncatewords:20 }}</p>
+                    <small>Added: {{ recipe.created_at|date:"M d, Y" }}</small>
+                </div>
+            </div>
+        {% empty %}
+            <p>No recipes found yet.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
