@@ -1,0 +1,29 @@
+{% extends 'recipes/base.html' %}
+
+{% block content %}
+    <div class="card">
+        <h1>{{ recipe.title }}</h1>
+        <small>Автор: {{ recipe.author }} | Теги: {{ recipe.tags }}</small>
+        <p><strong>Ингредиенты:</strong> {{ recipe.ingredients }}</p>
+        <p><strong>Инструкция:</strong> {{ recipe.instructions }}</p>
+    </div>
+
+    <h3>Комментарии и Оценки</h3>
+    {% for comment in comments %}
+        <div style="border-bottom: 1px solid #ddd; padding: 10px;">
+            <strong>{{ comment.author }}</strong> (Оценка: {{ comment.rating }}/5)
+            <p>{{ comment.text }}</p>
+        </div>
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        <h4>Добавить комментарий:</h4>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Отправить</button>
+        </form>
+    {% else %}
+        <p>Войдите, чтобы оставить комментарий.</p>
+    {% endif %}
+{% endblock %}

@@ -2,15 +2,70 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Recipe Book</title>
+    <title>RecipeShare</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        /* Исправление меню: Flexbox с явным разделением */
+        .navbar .container {
+            display: flex;
+            justify_content: space-between; /* Раскидывает элементы по краям */
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Блок с кнопками справа */
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px; /* Отступ между кнопками */
+        }
+
+        .nav-links a, .nav-links button {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover, .nav-links button:hover {
+            text-decoration: underline;
+        }
+
+        .user-greeting {
+            color: #ffe3e3;
+            margin-right: 5px;
+        }
+
+        /* Стиль для кнопки профиля */
+        .profile-btn {
+            background-color: rgba(255, 255, 255, 0.2) !important;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="logo">🍳 RecipeShare</a>
+            <a href="{% url 'home' %}" class="logo">🍳 RecipeShare</a>
+
+            <div class="nav-links">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'profile' %}" class="profile-btn">👤 {{ user.username }}</a>
+                    <a href="{% url 'recipe_create' %}">+ Рецепт</a>
+
+                    <form action="{% url 'logout' %}" method="post" style="display:inline; margin:0;">
+                        {% csrf_token %}
+                        <button type="submit">Выйти</button>
+                    </form>
+                {% else %}
+                    <a href="{% url 'login' %}">Войти</a>
+                {% endif %}
+            </div>
         </div>
     </nav>
 
@@ -20,7 +75,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Student Group Project</p>
+        <p>&copy; 2026 RecipeShare Team</p>
     </footer>
 
 </body>

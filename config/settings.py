@@ -118,3 +118,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+# Куда перенаправлять после ВХОДА (на главную)
+LOGIN_REDIRECT_URL = 'home'
+
+# Куда перенаправлять после ВЫХОДА (на главную)
+LOGOUT_REDIRECT_URL = 'home'

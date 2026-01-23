@@ -1,28 +1,40 @@
 from django.db import models
+from django.contrib.auth.models import User  # Импортируем пользователя
+from django.core.validators import MaxValueValidator, MinValueValidator  # Для оценки 1-5
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Название категории")
+    name = models.CharField(max_length=100)
 
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Категория"
-        verbose_name_plural = "Категории"
+    def __str__(self): return self.name
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=200, verbose_name="Название блюда")
-    description = models.TextField(verbose_name="Описание")
-    instructions = models.TextField(verbose_name="Инструкция по приготовлению", default="...")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
-    # Связь: у одного рецепта одна категория, но в категории много рецептов
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes', verbose_name="Категория")
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    instructions = models.TextField(default="...")
+    ingredients = models.TextField(default="...")
+    created_at = models.DateTimeField(auto_now_add=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='recipes')
 
-    def __str__(self):
-        return self.title
+    # --- НОВЫЕ ПОЛЯ ---
+    # Кто добавил рецепт (если удалим юзера, рецепт останется)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    # Простое текстовое поле для тегов (например: "Острое, Быстро")
+    tags = models.CharField(max_length=200, blank=True, help_text="Введите теги через запятую")
 
-    class Meta:
-        verbose_name = "Рецепт"
-        verbose_name_plural = "Рецепты"
+    def __str__(self): return self.title
+
+
+# --- НОВАЯ МОДЕЛЬ ---
+class Comment(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    text = models.TextField()
+    rating = models.IntegerField(
+        default=5,
+        validators=[MinValueValidator(1), MaxValueValidator(5)]  # Оценка от 1 до 5
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self): return f"Comment by {self.author} on {self.recipe}"
