@@ -2,23 +2,22 @@
 
 {% block content %}
 <div class="card">
-    <h1>Профиль пользователя: {{ user.username }}</h1>
-    <p>Email: {{ user.email|default:"Не указан" }}</p>
-    <p>Дата регистрации: {{ user.date_joined|date:"d M Y" }}</p>
+    <h1>User Profile: {{ user.username }}</h1>
+    <p>Email: {{ user.email|default:"Not specified" }}</p>
+    <p>Date Joined: {{ user.date_joined|date:"M d, Y" }}</p>
 </div>
 
-<h2>Мои рецепты</h2>
+<h2>My Recipes</h2>
 {% if recipes %}
     <div class="recipe-grid">
         {% for recipe in recipes %}
             <div class="card">
                 <h3><a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a></h3>
-                <small>Добавлен: {{ recipe.created_at|date:"d M Y" }}</small>
-                <br>
-                </div>
+                <small>Added: {{ recipe.created_at|date:"M d, Y" }}</small>
+            </div>
         {% endfor %}
     </div>
 {% else %}
-    <p>Вы пока не добавили ни одного рецепта. <a href="{% url 'recipe_create' %}">Создать первый?</a></p>
+    <p>You haven't created any recipes yet. <a href="{% url 'recipe_create' %}">Create one?</a></p>
 {% endif %}
 {% endblock %}

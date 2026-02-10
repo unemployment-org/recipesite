@@ -1,52 +1,204 @@
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    background-color: #f4f6f8;
-    color: #333;
+/* --- Глобальные настройки --- */
+* {
+    box-sizing: border-box;
 }
 
+html, body {
+    height: 100%; /* Важно для прижатия подвала */
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #f4f7f6;
+    color: #2d3436;
+    /* Магия Flexbox для подвала */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Принудительный шрифт для элементов */
+input, button, textarea, select, a {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- Шапка (Navbar) --- */
 .navbar {
     background-color: #ff6b6b;
-    padding: 1rem 0;
-    margin-bottom: 2rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 70px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
+    padding: 0 20px;
+    flex-shrink: 0; /* Шапка не сжимается */
+}
+
+.navbar .container {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify_content: space-between;
+    align-items: center;
 }
 
 .logo {
     color: white;
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 700;
     text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 0 20px;
+/* --- ПОИСК --- */
+.search-form {
+    flex-grow: 1;
+    max-width: 450px;
+    margin: 0 30px;
 }
 
-.recipe-grid {
-    display: grid;
+.search-bar {
+    background: white;
+    border-radius: 50px;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    color: #333 !important;
+    font-size: 0.95rem;
+    width: 100%;
+    outline: none;
+    padding: 5px 0;
+}
+
+.search-bar input::placeholder {
+    color: #aaa;
+}
+
+.search-bar button {
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0 0 0 10px;
+    color: #ff6b6b;
+    display: flex;
+    align-items: center;
+}
+
+/* --- Кнопки справа --- */
+.nav-links {
+    display: flex;
+    align-items: center;
     gap: 20px;
+}
+
+.nav-item {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    opacity: 0.9;
+    transition: 0.2s;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.nav-item:hover {
+    opacity: 1;
+}
+
+.user-btn {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    text-decoration: none;
+    padding: 6px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.logout-btn {
+    font-family: 'Poppins', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+/* --- Контент (Самое важное для подвала) --- */
+.container.content {
+    max-width: 900px;
+    margin: 40px auto;
+    width: 100%;
+    padding: 0 20px;
+    /* Этот параметр заставляет контент растягиваться и толкать подвал вниз */
+    flex: 1 0 auto;
 }
 
 .card {
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    overflow: hidden;
-    padding: 20px;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+    margin-bottom: 25px;
+    border: 1px solid rgba(0,0,0,0.02);
 }
 
-.category-tag {
-    background-color: #e9ecef;
-    color: #495057;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    font-weight: bold;
+h1, h2, h3 { color: #2d3436; margin-top: 0; }
+a { color: #ff6b6b; text-decoration: none; font-weight: 500;}
+a:hover { color: #e05252; }
+
+/* Формы */
+input[type="text"], input[type="password"], textarea, select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    background: #f9f9f9;
+    font-size: 0.95rem;
+    color: #333;
 }
 
-h2 { margin-top: 10px; color: #2c3e50; }
-footer { text-align: center; margin-top: 40px; color: #888; padding-bottom: 20px;}
+.search-bar input[type="text"] {
+    border: none;
+    background: transparent;
+}
+
+input:focus, textarea:focus {
+    border-color: #ff6b6b;
+    background: white;
+    outline: none;
+}
+
+button[type="submit"]:not(.search-bar button):not(.logout-btn) {
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+/* --- ПОДВАЛ (Footer) --- */
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #888;
+    background: #fff;
+    border-top: 1px solid #eee;
+    flex-shrink: 0; /* Запрещаем подвалу сжиматься */
+    width: 100%;
+}

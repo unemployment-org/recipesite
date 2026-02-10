@@ -2,13 +2,26 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Recipe
 from .forms import RecipeForm, CommentForm
-
+from django.db.models import Q  # <--- Добавь этот импорт в самом верху!
 
 # Список рецептов
 def recipe_list(request):
-    recipes = Recipe.objects.all().order_by('-created_at')
-    return render(request, 'recipes/recipe_list.html', {'recipes': recipes})
+    search_query = request.GET.get('search', '')  # Получаем текст из строки поиска
 
+    if search_query:
+        # Ищем, где название ИЛИ описание содержит текст
+        recipes = Recipe.objects.filter(
+            Q(title__icontains=search_query) |
+            Q(description__icontains=search_query) |
+            Q(tags__icontains=search_query)
+        ).order_by('-created_at')
+    else:
+        recipes = Recipe.objects.all().order_by('-created_at')
+
+    return render(request, 'recipes/recipe_list.html', {
+        'recipes': recipes,
+        'search_query': search_query  # Передаем обратно, чтобы оставить текст в поле
+    })
 
 # Детальный просмотр рецепта + Комментарии
 def recipe_detail(request, pk):

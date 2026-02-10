@@ -3,27 +3,34 @@
 {% block content %}
     <div class="card">
         <h1>{{ recipe.title }}</h1>
-        <small>Автор: {{ recipe.author }} | Теги: {{ recipe.tags }}</small>
-        <p><strong>Ингредиенты:</strong> {{ recipe.ingredients }}</p>
-        <p><strong>Инструкция:</strong> {{ recipe.instructions }}</p>
+        <small style="color: #888;">Author: {{ recipe.author }} | Tags: {{ recipe.tags }}</small>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 15px 0;">
+
+        <p><strong>Ingredients:</strong></p>
+        <p>{{ recipe.ingredients }}</p>
+
+        <p><strong>Instructions:</strong></p>
+        <p>{{ recipe.instructions }}</p>
     </div>
 
-    <h3>Комментарии и Оценки</h3>
+    <h3>Comments & Ratings</h3>
     {% for comment in comments %}
-        <div style="border-bottom: 1px solid #ddd; padding: 10px;">
-            <strong>{{ comment.author }}</strong> (Оценка: {{ comment.rating }}/5)
-            <p>{{ comment.text }}</p>
+        <div class="card" style="padding: 15px; margin-bottom: 15px;">
+            <strong>{{ comment.author }}</strong> (Rating: {{ comment.rating }}/5)
+            <p style="margin-top: 5px;">{{ comment.text }}</p>
         </div>
     {% endfor %}
 
     {% if user.is_authenticated %}
-        <h4>Добавить комментарий:</h4>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Отправить</button>
-        </form>
+        <div class="card">
+            <h4>Add a Comment:</h4>
+            <form method="post" class="comment-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     {% else %}
-        <p>Войдите, чтобы оставить комментарий.</p>
+        <p>Please <a href="{% url 'login' %}">login</a> to leave a comment.</p>
     {% endif %}
 {% endblock %}

@@ -3,49 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>RecipeShare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <style>
-        /* Исправление меню: Flexbox с явным разделением */
-        .navbar .container {
-            display: flex;
-            justify_content: space-between; /* Раскидывает элементы по краям */
-            align-items: center;
-            width: 100%;
-        }
-
-        /* Блок с кнопками справа */
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 20px; /* Отступ между кнопками */
-        }
-
-        .nav-links a, .nav-links button {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover, .nav-links button:hover {
-            text-decoration: underline;
-        }
-
-        .user-greeting {
-            color: #ffe3e3;
-            margin-right: 5px;
-        }
-
-        /* Стиль для кнопки профиля */
-        .profile-btn {
-            background-color: rgba(255, 255, 255, 0.2) !important;
-            padding: 5px 10px;
-            border-radius: 5px;
-        }
-    </style>
 </head>
 <body>
 
@@ -53,17 +12,23 @@
         <div class="container">
             <a href="{% url 'home' %}" class="logo">🍳 RecipeShare</a>
 
+            <form action="{% url 'home' %}" method="get" class="search-form">
+                <div class="search-bar">
+                    <input type="text" name="search" placeholder="Search recipes..." value="{{ search_query|default:'' }}">
+                    <button type="submit">🔍</button>
+                </div>
+            </form>
+
             <div class="nav-links">
                 {% if user.is_authenticated %}
-                    <a href="{% url 'profile' %}" class="profile-btn">👤 {{ user.username }}</a>
-                    <a href="{% url 'recipe_create' %}">+ Рецепт</a>
-
-                    <form action="{% url 'logout' %}" method="post" style="display:inline; margin:0;">
+                    <a href="{% url 'profile' %}" class="user-btn">👤 {{ user.username }}</a>
+                    <a href="{% url 'recipe_create' %}" class="nav-item">New Recipe</a>
+                    <form action="{% url 'logout' %}" method="post" style="margin:0; padding:0; display: flex;">
                         {% csrf_token %}
-                        <button type="submit">Выйти</button>
+                        <button type="submit" class="nav-item logout-btn">Logout</button>
                     </form>
                 {% else %}
-                    <a href="{% url 'login' %}">Войти</a>
+                    <a href="{% url 'login' %}" class="nav-item">Login</a>
                 {% endif %}
             </div>
         </div>

@@ -1,9 +1,12 @@
 {% extends 'recipes/base.html' %}
+
 {% block content %}
-    <h2>Вход на сайт</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Войти</button>
-    </form>
+    <div class="card" style="max-width: 400px; margin: 0 auto;">
+        <h2 style="text-align: center;">Login</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Login</button>
+        </form>
+    </div>
 {% endblock %}

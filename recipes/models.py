@@ -21,7 +21,7 @@ class Recipe(models.Model):
     # Кто добавил рецепт (если удалим юзера, рецепт останется)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     # Простое текстовое поле для тегов (например: "Острое, Быстро")
-    tags = models.CharField(max_length=200, blank=True, help_text="Введите теги через запятую")
+    tags = models.CharField(max_length=200, blank=True, help_text="Enter tags separated by commas")
 
     def __str__(self): return self.title
 
