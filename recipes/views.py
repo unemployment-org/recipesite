@@ -3,6 +3,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Recipe
 from .forms import RecipeForm, CommentForm
 from django.db.models import Q  # <--- Добавь этот импорт в самом верху!
+from rest_framework import generics
+from .serializers import RecipeSerializer
 
 # Список рецептов
 def recipe_list(request):
@@ -68,3 +70,7 @@ def profile_view(request):
     # Показываем только рецепты текущего пользователя
     user_recipes = Recipe.objects.filter(author=request.user)
     return render(request, 'recipes/profile.html', {'recipes': user_recipes})
+
+class RecipeListCreateAPI(generics.ListCreateAPIView):
+    queryset = Recipe.objects.all()
+    serializer_class = RecipeSerializer

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 # Добавляем profile_view в импорты:
-from recipes.views import recipe_list, recipe_create, recipe_detail, profile_view
+from recipes.views import recipe_list, recipe_create, recipe_detail, profile_view, RecipeListCreateAPI
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -13,4 +13,5 @@ urlpatterns = [
     path('accounts/profile/', profile_view, name='profile'),
 
     path('accounts/', include('django.contrib.auth.urls')),
+    path('api/recipes/', RecipeListCreateAPI.as_view(), name='api_recipe_list'),
 ]
